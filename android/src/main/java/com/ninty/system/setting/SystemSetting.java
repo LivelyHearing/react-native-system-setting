@@ -43,6 +43,8 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
     private static final String VOL_NOTIFICATION = "notification";
     private static final String VOL_BLUETOOTH = "bluetooth";
 
+    private static final int STREAM_BLUETOOTH = 6;
+
     private ReactApplicationContext mContext;
     private AudioManager am;
     private WifiManager wm;
@@ -356,7 +358,7 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
                 case AudioManager.MODE_RINGTONE:
                     return AudioManager.STREAM_RING;
                 default:
-                    return 6; // Bluetooth Volume
+                    return STREAM_BLUETOOTH;
             }
         }
 
@@ -374,7 +376,7 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
             case VOL_MUSIC:
                 return AudioManager.STREAM_MUSIC;
             default:
-                return 6; // Bluetooth Volume
+                return STREAM_BLUETOOTH;
         }
     }
 
