@@ -41,6 +41,9 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
     private static final String VOL_MUSIC = "music";
     private static final String VOL_ALARM = "alarm";
     private static final String VOL_NOTIFICATION = "notification";
+    private static final String VOL_BLUETOOTH = "bluetooth";
+
+    private static final int STREAM_BLUETOOTH = 6;
 
     private ReactApplicationContext mContext;
     private AudioManager am;
@@ -348,6 +351,17 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
     }
 
     private int getVolType(String type) {
+        if (type == null) {
+            switch(am.getMode()) {
+                case AudioManager.MODE_NORMAL:
+                    return AudioManager.STREAM_MUSIC;
+                case AudioManager.MODE_RINGTONE:
+                    return AudioManager.STREAM_RING;
+                default:
+                    return STREAM_BLUETOOTH;
+            }
+        }
+
         switch (type) {
             case VOL_VOICE_CALL:
                 return AudioManager.STREAM_VOICE_CALL;
@@ -359,8 +373,10 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
                 return AudioManager.STREAM_ALARM;
             case VOL_NOTIFICATION:
                 return AudioManager.STREAM_NOTIFICATION;
-            default:
+            case VOL_MUSIC:
                 return AudioManager.STREAM_MUSIC;
+            default:
+                return STREAM_BLUETOOTH;
         }
     }
 
@@ -580,13 +596,15 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("android.media.VOLUME_CHANGED_ACTION")) {
                 WritableMap para = Arguments.createMap();
-                para.putDouble("value", getNormalizationVolume(VOL_MUSIC));
+                para.putDouble("value", getNormalizationVolume(null));
                 para.putDouble(VOL_VOICE_CALL, getNormalizationVolume(VOL_VOICE_CALL));
                 para.putDouble(VOL_SYSTEM, getNormalizationVolume(VOL_SYSTEM));
                 para.putDouble(VOL_RING, getNormalizationVolume(VOL_RING));
                 para.putDouble(VOL_MUSIC, getNormalizationVolume(VOL_MUSIC));
                 para.putDouble(VOL_ALARM, getNormalizationVolume(VOL_ALARM));
                 para.putDouble(VOL_NOTIFICATION, getNormalizationVolume(VOL_NOTIFICATION));
+                para.putDouble(VOL_BLUETOOTH, getNormalizationVolume(VOL_BLUETOOTH));
+
                 try {
                     mContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit("EventVolume", para);
