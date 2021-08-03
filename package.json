@@ -1,8 +1,8 @@
 {
     "name": "@livelyhearing/react-native-system-setting",
-    "version": "1.8.0",
+    "version": "1.8.1",
     "description": "provide some system setting APIs. Volume, brightness, wifi, location, bluetooth, airplane...",
-    "main": "SystemSetting.js",
+    "main": "./SystemSetting.js",
     "types": "SystemSetting.d.ts",
     "homepage": "https://github.com/LivelyHearing/react-native-system-setting",
     "bugs": {
@@ -22,14 +22,14 @@
         "bluetooth",
         "airplane"
     ],
-    "author": {
-        "name": "Ninty",
-        "email": "c19354837@hotmail.com",
-        "url": "https://github.com/c19354837"
-    },
     "repository": {
         "type": "git",
-        "url": "https://github.com/LivelyHearing/react-native-system-setting.git"
+        "url": "git+https://github.com/LivelyHearing/react-native-system-setting.git",
+        "baseUrl": "https://github.com/LivelyHearing/react-native-system-setting",
+        "directory": "react-native-lively-gn-mobile-sdk"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
     },
     "license": "MIT"
 }
